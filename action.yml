@@ -1,4 +1,4 @@
-name: Build Writerside docs with Docker
+name: Build Writerside docs using Docker
 description: Build Writerside documentation artifacts
 author: writerside <writerside@jetbrains.com>
 branding:
