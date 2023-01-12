@@ -1,0 +1,10 @@
+name: Build Writerside docs with Docker
+description: Build Writerside documentation artifacts
+author: writerside <writerside@jetbrains.com>
+branding:
+    icon: book-open
+    color: purple
+
+runs:
+    using: 'docker'
+    image: 'Dockerfile'
