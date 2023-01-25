@@ -18,29 +18,29 @@ The $PRODUCT should be name_of_module / instance_id, for example sample_module/s
 name: Build docs
 
 on:
-push:
-branches: ["main"]
+  push:
+    branches: ["main"]
 
-workflow_dispatch:
+  workflow_dispatch:
 
 env:
-PRODUCT: module/instance-id
-ARTIFACT: webHelpXX2-all.zip
+  PRODUCT: help-module/t
+  ARTIFACT: webHelpT2-all.zip
 
 jobs:
-build-job:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout repository
-uses: actions/checkout@v3
-- name: Build Writerside docs with docker
-uses: JetBrains/writerside-github-action@v1
-- name: Upload artifact
-uses: actions/upload-artifact@v3
-with:
-name: artifact
-path: artifacts/${{ env.ARTIFACT }}
-retention-days: 7
+  build-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build Writerside docs using Docker
+        uses: JetBrains/writerside-github-action@v1
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: artifacts/${{ env.ARTIFACT }}
+          retention-days: 7
 ```
 
 
@@ -50,59 +50,68 @@ retention-days: 7
 name: Build docs
 
 on:
-push:
-branches: ["main"]
+  push:
+    branches: ["main"]
 
-workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-contents: read
-pages: write
-id-token: write
+  workflow_dispatch:
 
 env:
-    PRODUCT: module/instance-id
-    ARTIFACT: webHelpXX2-all.zip
+  PRODUCT: help-module/t
+  ARTIFACT: webHelpT2-all.zip
 
 jobs:
-    build-job:
+  build-job:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-        - name: Build Writerside docs with docker
-          uses: JetBrains/writerside-github-action@v1
-        - name: Upload artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: artifact
-            path: artifacts/${{ env.ARTIFACT }}
-            retention-days: 7
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build Writerside docs using Docker
+        uses: JetBrains/writerside-github-action@v1
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: artifacts/${{ env.ARTIFACT }}
+          retention-days: 7
 
-deploy:
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build Writerside docs with docker
+        uses: JetBrains/writerside-github-action@v1
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: artifacts/${{ env.ARTIFACT }}
+          retention-days: 7
+
+  deploy:
     environment:
     name: github-pages
     url: ${{ steps.deployment.outputs.page_url }}
     needs: build-job
     runs-on: ubuntu-latest
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: artifact
-    - name: Unzip artifact
-      uses: montudor/action-zip@v1
-      with:
-        args: unzip -qq ${{ env.ARTIFACT }} -d dir
-    - name: Setup Pages
-      uses: actions/configure-pages@v2
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: dir
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: artifact
+      - name: Unzip artifact
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq ${{ env.ARTIFACT }} -d dir
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: dir
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
 
 ```
