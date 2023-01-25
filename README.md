@@ -74,21 +74,6 @@ jobs:
           path: artifacts/${{ env.ARTIFACT }}
           retention-days: 7
 
-jobs:
-  build-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Build Writerside docs with docker
-        uses: JetBrains/writerside-github-action@v1
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: artifact
-          path: artifacts/${{ env.ARTIFACT }}
-          retention-days: 7
-
   deploy:
     environment:
     name: github-pages
@@ -113,5 +98,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-
 ```
