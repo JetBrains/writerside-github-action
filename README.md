@@ -4,6 +4,8 @@ This action creates a zip-archive with HTMLs from markdown or semantic markup to
 
 ## Environment variables
 
+You need to change these variables values to the ones from your help project.
+
 ### `ARTIFACT`
 
 The name of the archive is webHelpXX2-all.zip where XX gets replaced by the instance id in caps.
@@ -24,8 +26,8 @@ on:
   workflow_dispatch:
 
 env:
-  PRODUCT: help-module/t
-  ARTIFACT: webHelpT2-all.zip
+  PRODUCT: name_of_module/instance_id
+  ARTIFACT: webHelpXX2-all.zip
 
 jobs:
   build-job:
@@ -56,8 +58,8 @@ on:
   workflow_dispatch:
 
 env:
-  PRODUCT: help-module/t
-  ARTIFACT: webHelpT2-all.zip
+  PRODUCT: name_of_module/instance_id
+  ARTIFACT: webHelpXX2-all.zip
 
 jobs:
   build-job:
