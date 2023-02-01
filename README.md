@@ -36,7 +36,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Build Writerside docs using Docker
-        uses: JetBrains/writerside-github-action@v1
+        uses: JetBrains/writerside-github-action@v2
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -72,7 +72,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Build Writerside docs using Docker
-        uses: JetBrains/writerside-github-action@v1
+        uses: JetBrains/writerside-github-action@v2
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
