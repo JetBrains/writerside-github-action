@@ -25,6 +25,10 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  pages: write
+
 env:
   PRODUCT: name_of_module/instance_id
   ARTIFACT: webHelpXX2-all.zip
@@ -57,6 +61,10 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  pages: write
+
 env:
   PRODUCT: name_of_module/instance_id
   ARTIFACT: webHelpXX2-all.zip
@@ -76,10 +84,10 @@ jobs:
           path: artifacts/${{ env.ARTIFACT }}
           retention-days: 7
 
-  deploy:
+ deploy:
     environment:
-    name: github-pages
-    url: ${{ steps.deployment.outputs.page_url }}
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     needs: build-job
     runs-on: ubuntu-latest
     steps:
