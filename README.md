@@ -80,7 +80,7 @@ jobs:
           path: artifacts/${{ env.ARTIFACT }}
           retention-days: 7
 
- deploy:
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
