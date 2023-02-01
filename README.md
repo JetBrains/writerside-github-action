@@ -25,10 +25,6 @@ on:
 
   workflow_dispatch:
 
-permissions:
-  id-token: write
-  pages: write
-
 env:
   PRODUCT: name_of_module/instance_id
   ARTIFACT: webHelpXX2-all.zip
