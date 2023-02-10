@@ -10,9 +10,15 @@ You need to change these variables values to the ones from your help project.
 
 The name of the archive is webHelpXX2-all.zip where XX gets replaced by the instance id in caps.
 
+For example, if the help instance is *Foo Help*, and its ID is `fh`, then set `ARTIFACT: webHelpFH2-all.zip`.
+
 ### `PRODUCT`
 
-The $PRODUCT should be name_of_module / instance_id, for example sample_module/sd. No default value.
+The name of the help module and help instance ID separated by a slash. 
+
+When you create a new Writerside project or a help instance in an existing project,
+the default help module name is `Writerside` and the default instance id is `hi`. 
+So, in this case, set `PRODUCT: Writerside/hi`.
 
 ## Example usage with the build HTMLs only
 
@@ -105,3 +111,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v1
 ```
+For more information, please read our deployment guide — [Build and publish on GitHub](https://plugins.jetbrains.com/plugin/20158-writerside/docs/deploy-docs-to-github-pages.html).
+
+
