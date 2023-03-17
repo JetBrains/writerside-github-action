@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM registry.jetbrains.team/p/writerside/builder/writerside-builder:2.1.1180
+FROM registry.jetbrains.team/p/writerside/builder/writerside-builder:2.1.1198
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
