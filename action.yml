@@ -6,7 +6,7 @@ branding:
     color: purple
 
 inputs:
-  docker-tag:
+  docker-version:
     description: 'The Docker image tag to use'
     required: false
     default: '2.1.1256-p3333'
