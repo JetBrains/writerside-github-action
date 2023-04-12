@@ -12,8 +12,7 @@ inputs:
     default: "2.1.1256-p3333"
 
 runs:
-    using: 'docker'
-    image: 'Dockerfile'
-    args:
-      - ${{ inputs.docker_version }}
-    entrypoint: /entrypoint.sh
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    DOCKER_VERSION: ${{ inputs.docker_version }}
