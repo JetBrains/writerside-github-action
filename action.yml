@@ -16,4 +16,4 @@ runs:
     image: 'Dockerfile'
     args:
       - ${{ inputs.docker_version }}
-
+    entrypoint: /entrypoint.sh
