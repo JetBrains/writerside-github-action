@@ -5,6 +5,12 @@ branding:
     icon: book-open
     color: purple
 
+inputs:
+  docker_version:
+    description: "The version of the Docker image to use"
+    required: true
+    default: "2.1.1256-p3333"
+
 runs:
     using: 'docker'
     image: 'Dockerfile'
