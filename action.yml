@@ -6,13 +6,13 @@ branding:
     color: purple
 
 inputs:
-  docker_version:
-    description: "The version of the Docker image to use"
-    required: true
-    default: "2.1.1256-p3333"
+  docker-tag:
+    description: 'The Docker image tag to use'
+    required: false
+    default: '2.1.1256-p3333'
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    DOCKER_VERSION: ${{ inputs.docker_version }}
+    - '--build-arg=DOCKER_VERSION=${{ inputs.docker-version }}'
