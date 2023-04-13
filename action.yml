@@ -14,5 +14,3 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - '--build-arg=DOCKER_VERSION=${{ inputs.docker-version }}'
