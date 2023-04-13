@@ -4,16 +4,15 @@ author: writerside <writerside@jetbrains.com>
 branding:
     icon: book-open
     color: purple
+
 inputs:
   docker-version:
     description: 'The version of the Docker image to use'
-    required: true
-    default: '2.1.984'
-  entrypoint:
-    description: 'The path to the entrypoint script'
     required: false
-    default: './entrypoint.sh'
+    default: '2.1.1256-p3333'
+
 runs:
   using: 'docker'
-  image: 'registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.docker-version }}'
-  entrypoint: ${{ inputs.entrypoint }}
+  image: 'Dockerfile'
+  args:
+    - '--build-arg=DOCKER_VERSION=${{ inputs.docker-version }}'

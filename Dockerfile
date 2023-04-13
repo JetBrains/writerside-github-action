@@ -1,7 +1,5 @@
-# Define an argument for the Docker image version
-ARG DOCKER_VERSION
-
-# Container image that runs your code
+# Base image for the build
+ARG DOCKER_VERSION=2.1.1256-p3333
 FROM registry.jetbrains.team/p/writerside/builder/writerside-builder:${DOCKER_VERSION}
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
