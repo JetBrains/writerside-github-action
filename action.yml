@@ -4,7 +4,6 @@ author: writerside <writerside@jetbrains.com>
 branding:
     icon: book-open
     color: purple
-
 inputs:
   docker-version:
     description: 'The version of the Docker image to use'
@@ -14,7 +13,6 @@ inputs:
     description: 'The path to the entrypoint script'
     required: false
     default: './entrypoint.sh'
-
 runs:
   using: 'docker'
   image: 'registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.docker-version }}'
