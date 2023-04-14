@@ -5,14 +5,6 @@ branding:
     icon: book-open
     color: purple
 
-inputs:
-  docker-version:
-    description: 'The version of the Docker image to use'
-    required: false
-    default: '2.1.1256-p3333'
-
 runs:
-  using: 'docker'
-  image: 'my-image'
-  args: 
-    - DOCKER_VERSION=${{ inputs.docker-version }}
+    using: 'docker'
+    image: 'Dockerfile'
