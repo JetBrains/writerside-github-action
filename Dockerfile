@@ -1,6 +1,6 @@
 # Stage 1: Install Docker command-line tool
-ARG DOCKER_VERSION=20.10.10
-FROM docker:${DOCKER_VERSION}-dind as docker-cli
+ARG DOCKER_CLI_VERSION=20.10.10
+FROM docker:${DOCKER_CLI_VERSION}-dind as docker-cli
 
 # Install Docker command-line tool
 RUN apk add --no-cache curl && \
