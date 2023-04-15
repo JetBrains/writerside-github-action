@@ -15,5 +15,5 @@ runs:
     using: 'composite'
     steps:
         - name: Run Docker image with specified version
-          run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.docker_image_version }}
+          run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.docker_version }}
           shell: bash
