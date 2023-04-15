@@ -12,8 +12,5 @@ inputs:
     default: '2.1.1279-p3399'
 
 runs:
-    using: 'composite'
-    steps:
-        - name: Run Docker image with specified version
-          run: ${{ github.action_path }}/entrypoint.sh ${{ inputs.docker_version }}
-          shell: bash
+  using: 'docker'
+  image: 'Dockerfile'
