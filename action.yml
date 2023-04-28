@@ -14,10 +14,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Build and run Dockerfile
-      shell: bash
-      run: |
-        cat Dockerfile | docker build --tag image_name -
-        docker run image_name
+    - name: Build with Writerside CLI
+      uses: docker://registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.cli-version }}
+      run: entrypoint.sh
+
+
 
 
