@@ -5,6 +5,14 @@ branding:
     icon: book-open
     color: purple
 
+inputs:
+    cli-version:
+        description: 'The specific version of Writerside CLI to use'
+        required: false
+        default: 'latest-release'
+
 runs:
     using: 'docker'
     image: 'Dockerfile'
+    args:
+        - 'IMAGE_VERSION=${{ inputs.cli-version }}'
