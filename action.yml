@@ -15,8 +15,7 @@ runs:
   using: 'composite'
   steps:
     - name: Build with Writerside CLI
-      uses: docker://registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.cli-version }}
-      run: entrypoint.sh
+      uses: docker://registry.jetbrains.team/p/writerside/builder/writerside-builder:latest-release
 
 
 
