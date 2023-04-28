@@ -13,6 +13,5 @@ inputs:
 
 runs:
     using: 'docker'
-    image: 'Dockerfile'
-    args:
-        - 'IMAGE_VERSION=${{ inputs.cli-version }}'
+    image: registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.cli-version }}
+    entrypoint: entrypoint.sh
