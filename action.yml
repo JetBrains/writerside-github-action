@@ -15,6 +15,7 @@ runs:
   using: 'composite'
   steps:
     - name: Build with Writerside CLI
+      shell: bash
       run: |
         docker run registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.cli-version }} \
         '/opt/builder/bin/idea.sh helpbuilderinspect -source-dir . -product $PRODUCT --runner github -output-dir artifacts/ || true'
