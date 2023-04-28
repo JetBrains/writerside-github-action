@@ -2,16 +2,22 @@ name: Build Writerside docs using Docker
 description: Build Writerside documentation artifacts
 author: writerside <writerside@jetbrains.com>
 branding:
-    icon: book-open
-    color: purple
+  icon: book-open
+  color: purple
 
 inputs:
-    cli-version:
-        description: 'The specific version of Writerside CLI to use'
-        required: false
-        default: 'latest-release'
+  cli-version:
+    description: 'The specific version of Writerside CLI to use'
+    required: false
+    default: 'latest-release'
 
 runs:
-    using: 'docker'
-    image: registry.jetbrains.team/p/writerside/builder/writerside-builder:${{ inputs.cli-version }}
-    entrypoint: entrypoint.sh
+  using: 'composite'
+  steps:
+    - name: Build and run Dockerfile
+      shell: bash
+      run: |
+        cat Dockerfile | docker build --tag image_name -
+        docker run image_name
+
+
