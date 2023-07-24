@@ -5,6 +5,17 @@ branding:
     icon: book-open
     color: purple
 
+inputs:
+    image-version:
+        description: 'Writerside docker image version'
+        required: false
+    instance:
+        description: "Module name and instance ID"
+        required: true
+    artifact:
+        description: "Archive to store as artifact"
+        required: true
+
 runs:
-    using: 'docker'
-    image: 'Dockerfile'
+    using: 'node16'
+    main: 'dist/index.js'
