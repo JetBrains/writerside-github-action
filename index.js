@@ -3,12 +3,12 @@ const exec = require('@actions/exec');
 
 async function run() {
     try {
-        let imageVersion = core.getInput('image-version');
+        let imageVersion = core.getInput('docker-version');
         const instance = core.getInput('instance');
         const artifact = core.getInput('artifact');
         const workspace = process.env.GITHUB_WORKSPACE;
 
-        // Set a default docker image if image-version is undefined
+        // Set a default docker image if docker-version is undefined
         if (!imageVersion) {
             imageVersion = '2.1.1479-p3869';
         }

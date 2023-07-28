@@ -38,7 +38,7 @@ env:
   # Replace HI with the ID of the instance in capital letters
   ARTIFACT: webHelpHI2-all.zip
   # Docker image version
-  DOCKER: 2.1.1479-p3869
+  DOCKER_VERSION: 2.1.1479-p3869
 
 jobs:
   build:
@@ -52,7 +52,7 @@ jobs:
         with:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
-          image-version: ${{ env.DOCKER }}
+          docker-version: ${{ env.DOCKER_VERSION }}
       
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -86,7 +86,7 @@ env:
   # Replace XX with the ID of the instance in capital letters
   ARTIFACT: webHelpXX2-all.zip
   # Docker image version
-  DOCKER: 2.1.1479-p3869
+  DOCKER_VERSION: 2.1.1479-p3869
 
 jobs:
   build:
@@ -101,7 +101,7 @@ jobs:
         with:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
-          image-version: ${{ env.DOCKER }}
+          docker-version: ${{ env.DOCKER_VERSION }}
         
       - name: Upload artifact
         uses: actions/upload-artifact@v3

@@ -6,7 +6,7 @@ branding:
     color: purple
 
 inputs:
-    image-version:
+    docker-version:
         description: 'Writerside docker image version'
         required: false
     instance:
