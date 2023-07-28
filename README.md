@@ -1,3 +1,6 @@
+[![JetBrains team project](https://jb.gg/badges/team.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+
+
 # A GitHub action for building a Writerside docs artifacts in a Docker container
 
 This action creates a zip-archive with HTMLs converted from markdown or semantic markup files.
