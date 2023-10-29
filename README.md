@@ -118,7 +118,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # Requires test job results
+    # Requires build job results
     needs: build
     runs-on: ubuntu-latest
 
