@@ -4099,7 +4099,7 @@ async function run() {
 
         // Set a default docker image if docker-version is undefined
         if (!imageVersion) {
-            imageVersion = '2.1.1479-p3869';
+            imageVersion = '232.10165.1';
         }
 
         const commands = `
@@ -4108,6 +4108,11 @@ async function run() {
             /opt/builder/bin/idea.sh helpbuilderinspect -source-dir /github/workspace -product ${instance} --runner github -output-dir /github/workspace/artifacts/ || true
             echo "Test existing artifacts"
             test -e /github/workspace/artifacts/${artifact} && echo ${artifact} exists
+            if [ -z "$(ls -A /github/workspace/artifacts/ 2>/dev/null)" ]; then
+               echo "Artifacts not found" && false
+            else
+               ls -la /github/workspace/artifacts/
+            fi
         `;
 
         // Run your Docker container
