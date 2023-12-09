@@ -9,18 +9,22 @@ This action creates a zip-archive with HTMLs converted from markdown or semantic
 
 Change these variables with the values from your project.
 
+### `INSTANCE`
+
+Represents the module name and instance ID, separated by a slash.
+
+When you create a new Writerside project or add an instance in an existing project, the default module name is `Writerside` and the default instance id is `hi`.
+So, in this case, set `INSTANCE: Writerside/hi`.
+
 ### `ARTIFACT`
 
 The name of the archive is `webHelpXX2-all.zip` where `XX` gets replaced by the capitalized instance id.
 
 For example, if the module (folder with documentation) is *Writerside*, and its ID is `hi`, then should be set to `ARTIFACT: webHelpHI2-all.zip`.
 
-### `INSTANCE`
+### `DOCKER_VERSION`
 
-This represents the module name and instance ID, separated by a slash.
-
-When you create a new Writerside project or add an instance in an existing project, the default module name is `Writerside` and the default instance id is `hi`. 
-So, in this case, set `INSTANCE: Writerside/hi`.
+The Writerside docker tag. Change the DOCKER_VERSION to the corresponding version published with the plugin update. To check the corresponding version, read the [What's new section](https://www.jetbrains.com/help/writerside/whats-new-last-update.html) in our documentation.
 
 ## Example usage: Building HTMLs Only
 
@@ -41,7 +45,7 @@ env:
   # Replace HI with the ID of the instance in capital letters
   ARTIFACT: webHelpHI2-all.zip
   # Docker image version
-  DOCKER_VERSION: 2.1.1479-p3869
+  DOCKER_VERSION: 232.10275
 
 jobs:
   build:
@@ -89,7 +93,7 @@ env:
   # Replace XX with the ID of the instance in capital letters
   ARTIFACT: webHelpXX2-all.zip
   # Docker image version
-  DOCKER_VERSION: 2.1.1479-p3869
+  DOCKER_VERSION: 232.10275
 
 jobs:
   build:
@@ -129,9 +133,7 @@ jobs:
           name: docs
 
       - name: Unzip artifact
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq ${{ env.ARTIFACT }} -d dir
+        run: unzip -O UTF-8 -qq ${{ env.ARTIFACT }} -d dir
 
       - name: Setup Pages
         uses: actions/configure-pages@v2

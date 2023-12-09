@@ -9,6 +9,10 @@ inputs:
     docker-version:
         description: 'Writerside docker image version'
         required: false
+    location:
+        description: 'Writerside documentation module location'
+        default: ''
+        required: false
     instance:
         description: "Module name and instance ID"
         required: true
