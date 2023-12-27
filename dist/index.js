@@ -4112,6 +4112,7 @@ async function run() {
             if [ -z "$(ls -A /github/workspace/artifacts/ 2>/dev/null)" ]; then
                echo "Artifacts not found" && false
             else
+               chmod 777 /github/workspace/artifacts/*
                ls -la /github/workspace/artifacts/
             fi
         `;
