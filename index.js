@@ -17,6 +17,7 @@ async function run() {
         const commands = `
             export DISPLAY=:99
             Xvfb :99 &
+            git config --global --add safe.directory /github/workspace
             /opt/builder/bin/idea.sh helpbuilderinspect -source-dir /github/workspace/${location} -product ${instance} --runner github -output-dir /github/workspace/artifacts/ || true
             echo "Test existing artifacts"
             test -e /github/workspace/artifacts/${artifact} && echo ${artifact} exists
