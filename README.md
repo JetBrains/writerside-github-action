@@ -45,7 +45,7 @@ env:
   # Replace HI with the ID of the instance in capital letters
   ARTIFACT: webHelpHI2-all.zip
   # Docker image version
-  DOCKER_VERSION: 232.10275
+  DOCKER_VERSION: 233.14938
 
 jobs:
   build:
@@ -93,7 +93,7 @@ env:
   # Replace XX with the ID of the instance in capital letters
   ARTIFACT: webHelpXX2-all.zip
   # Docker image version
-  DOCKER_VERSION: 232.10275
+  DOCKER_VERSION: 233.14938
 
 jobs:
   build:
