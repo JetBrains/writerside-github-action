@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
@@ -62,7 +62,7 @@ jobs:
           docker-version: ${{ env.DOCKER_VERSION }}
       
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifact
           path: artifacts/${{ env.ARTIFACT }}
@@ -101,7 +101,7 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
@@ -111,7 +111,7 @@ jobs:
           docker-version: ${{ env.DOCKER_VERSION }}
         
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docs
           path: |
@@ -128,7 +128,7 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: docs
 
@@ -136,16 +136,16 @@ jobs:
         run: unzip -O UTF-8 -qq ${{ env.ARTIFACT }} -d dir
 
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v4.0.0
       
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: dir
       
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4.0.4
 ```
 For more information, please read the deployment guide — [Build and publish on GitHub](https://plugins.jetbrains.com/plugin/20158-writerside/docs/deploy-docs-to-github-pages.html).
 
