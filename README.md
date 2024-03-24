@@ -147,6 +147,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4.0.4
 ```
-For more information, please read the deployment guide — [Build and publish on GitHub](https://plugins.jetbrains.com/plugin/20158-writerside/docs/deploy-docs-to-github-pages.html).
+For more information, please read the deployment guide — [Build and publish on GitHub](https://www.jetbrains.com/help/writerside/deploy-docs-to-github-pages.html).
 
 
