@@ -15,10 +15,19 @@ async function run() {
         }
 
         const commands = `
+            cd /github/workspace
             export DISPLAY=:99
             Xvfb :99 &
             git config --global --add safe.directory /github/workspace
-            /opt/builder/bin/idea.sh helpbuilderinspect -source-dir /github/workspace/${location} -product ${instance} --runner github -output-dir /github/workspace/artifacts/ || true
+            echo "Generate timestamps"
+            mkdir -p /github/workspace/timestamps
+            echo "{" > /github/workspace/timestamps/timestamps.json
+            git ls-tree -r --name-only HEAD | grep -E '\\.(topic|md)$' | xargs -n 1 -P 4 -I{} bash -c 'echo -e "\\"$0\\": \\"$(git log -1 --format="%at" -- "$0")\\","' {} >> /github/workspace/timestamps/timestamps.json
+            sed -i '$ s/.$//' /github/workspace/timestamps/timestamps.json
+            echo "}" >> /github/workspace/timestamps/timestamps.json
+            echo "Printing timestamps.json"
+            cat /github/workspace/timestamps/timestamps.json
+            /opt/builder/bin/idea.sh helpbuilderinspect -source-dir /github/workspace/${location} -product ${instance} --runner github -output-dir /github/workspace/artifacts/ -time /github/workspace/timestamps/timestamps.json || true
             echo "Test existing artifacts"
             test -e /github/workspace/artifacts/${artifact} && echo ${artifact} exists
             if [ -z "$(ls -A /github/workspace/artifacts/ 2>/dev/null)" ]; then
