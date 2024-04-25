@@ -53,6 +53,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
@@ -93,7 +95,7 @@ env:
   # Replace XX with the ID of the instance in capital letters
   ARTIFACT: webHelpXX2-all.zip
   # Docker image version
-  DOCKER_VERSION: 233.14938
+  DOCKER_VERSION: 241.15989
 
 jobs:
   build:
@@ -102,6 +104,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
