@@ -45,7 +45,7 @@ env:
   # Replace HI with the ID of the instance in capital letters
   ARTIFACT: webHelpHI2-all.zip
   # Docker image version
-  DOCKER_VERSION: 233.14938
+  DOCKER_VERSION: 241.15989
 
 jobs:
   build:
@@ -57,7 +57,7 @@ jobs:
           fetch-depth: 0
       
       - name: Build Writerside docs using Docker
-        uses: JetBrains/writerside-github-action@v4
+        uses: JetBrains/writerside-github-action@v5
         with:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
@@ -108,7 +108,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build Writerside docs using Docker
-        uses: JetBrains/writerside-github-action@v4
+        uses: JetBrains/writerside-github-action@v5
         with:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
