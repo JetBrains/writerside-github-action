@@ -45,7 +45,7 @@ env:
   # Replace HI with the ID of the instance in capital letters
   ARTIFACT: webHelpHI2-all.zip
   # Docker image version
-  DOCKER_VERSION: 242.21870
+  DOCKER_VERSION: "242.21870"
 
 jobs:
   build:
