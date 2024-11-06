@@ -19,6 +19,9 @@ inputs:
     artifact:
         description: "Archive to store as artifact"
         required: true
+    pdf:
+        description: "Generate PDF as artifact"
+        required: false
 
 runs:
     using: 'node20'
