@@ -31,7 +31,7 @@ jobs:
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: github.event_name == 'issue_comment' && !(github.event.comment.user.login == 'Muph0' || github.event.comment.user.login == 'lananovikova10' || github.event.comment.user.login == 'siarb')
+        if: github.event_name == 'issue_comment' && !(github.event.comment.user.login == 'Muph0' || github.event.comment.user.login == 'lananovikova10' || github.event.comment.user.login == 'siarb' || github.event.comment.user.login == 'azhebel')
 
       - name: GitHub issue submitted
         id: slack-opened
@@ -54,4 +54,4 @@ jobs:
 
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: github.event_name == 'issues' && github.event.action == 'opened' && !(github.event.issue.user.login == 'Muph0' || github.event.issue.user.login == 'lananovikova10' || github.event.issue.user.login == 'siarb')
+        if: github.event_name == 'issues' && github.event.action == 'opened' && !(github.event.issue.user.login == 'Muph0' || github.event.issue.user.login == 'lananovikova10' || github.event.issue.user.login == 'siarb' || github.event.comment.user.login == 'azhebel')
