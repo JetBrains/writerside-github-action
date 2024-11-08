@@ -1,54 +1,53 @@
 [![JetBrains team project](https://jb.gg/badges/team.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
 
-# A GitHub action for building a Writerside docs artifacts in a Docker container
+# Writerside GitHub action
 
-This action creates a zip-archive with HTMLs converted from markdown or semantic markup files.
+This action runs the Writerside builder Docker image,
+which creates a ZIP archive with your documentation website from a Writerside project.
+
+For more information,
+see [Writerside documentation](https://www.jetbrains.com/help/writerside/deploy-docs-to-github-pages.html).
 
 ## Environment variables
 
-Change these variables with the values from your project.
+The following environment variables are mandatory:
 
-### `INSTANCE`
+`INSTANCE`
+: Specify the module name and instance ID, separated by a slash.
+: When you create a new Writerside project or add an instance in an existing project, the default module name is `Writerside` and the default instance ID is `hi`.
+: So, in this case, you would set `INSTANCE: 'Writerside/hi'`.
 
-Represents the module name and instance ID, separated by a slash.
+`ARTIFACT`
+: The name of the produced archive is `webHelpXX2-all.zip`
+  where `XX` is the capitalized instance ID.
+: For example, if the module (directory with documentation) is `Writerside`,
+  and the instance ID is `hi`, then set to `ARTIFACT: webHelpHI2-all.zip`.
 
-When you create a new Writerside project or add an instance in an existing project, the default module name is `Writerside` and the default instance id is `hi`.
-So, in this case, set `INSTANCE: Writerside/hi`.
+`DOCKER_VERSION`
+: Specify the version tag of the Writerside Docker builder image.
+  For the latest version, see [What's new](https://www.jetbrains.com/help/writerside/whats-new-last-update.html).
 
-### `ARTIFACT`
+The following environment variables are optional:
 
-The name of the archive is `webHelpXX2-all.zip` where `XX` gets replaced by the capitalized instance id.
+`PDF`
+: Produce a PDF file as a build artifact instead of the documentation website.
+  Specify an XML file with PDF generation options.
 
-For example, if the module (folder with documentation) is *Writerside*, and its ID is `hi`, then should be set to `ARTIFACT: webHelpHI2-all.zip`.
-
-### `DOCKER_VERSION`
-
-The Writerside docker tag. Change the DOCKER_VERSION to the corresponding version published with the plugin update. To check the corresponding version, read the [What's new section](https://www.jetbrains.com/help/writerside/whats-new-last-update.html) in our documentation.
-
-### `PDF`
-TODO: 
-
-## Example usage: Building HTMLs Only
+## Example: Build your documentation website
 
 ```yml
 name: Build documentation
 
 on:
   push:
-  # To trigger the workflow once you push to the `main` branch
-  # Replace `main` with your branch’s name
     branches: ["main"]
-  # Specify to run a workflow manually from the Actions tab on GitHub
   workflow_dispatch:
 
 env:
-  # Name of module and id separated by a slash
-  INSTANCE: Writerside/hi
-  # Replace HI with the ID of the instance in capital letters
-  ARTIFACT: webHelpHI2-all.zip
-  # Docker image version
-  DOCKER_VERSION: 242.21870
+  INSTANCE: 'Writerside/hi'
+  ARTIFACT: 'webHelpHI2-all.zip'
+  DOCKER_VERSION: '242.21870'
 
 jobs:
   build:
@@ -59,7 +58,7 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Build Writerside docs using Docker
+      - name: Build docs using Writerside Docker builder
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
@@ -75,17 +74,14 @@ jobs:
 ```
 
 
-## Example Usage: Building and Publishing to GitHub Pages
+## Example: Build and publish to GitHub Pages
 
 ```yml
 name: Build documentation
 
 on:
   push:
-    # To trigger the workflow once you push to the `main` branch
-    # Replace `main` with your branch’s name
     branches: ["main"]
-  # Specify to run a workflow manually from the Actions tab on GitHub
   workflow_dispatch:
 
 permissions:
@@ -93,11 +89,8 @@ permissions:
   pages: write
 
 env:
-  # Name of module and id separated by a slash
-  INSTANCE: Writerside/xx
-  # Replace XX with the ID of the instance in capital letters
-  ARTIFACT: webHelpXX2-all.zip
-  # Docker image version
+  INSTANCE: 'Writerside/hi'
+  ARTIFACT: 'webHelpHI2-all.zip'
   DOCKER_VERSION: 242.21870
 
 jobs:
@@ -129,7 +122,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # Requires build job results
     needs: build
     runs-on: ubuntu-latest
 
@@ -155,27 +147,20 @@ jobs:
         uses: actions/deploy-pages@v4.0.4
 ```
 
-## Example usage: Building PDF Only
+## Example: Build PDF
 
 ```yml
 name: Build documentation
 
 on:
   push:
-  # To trigger the workflow once you push to the `main` branch
-  # Replace `main` with your branch’s name
     branches: ["main"]
-  # Specify to run a workflow manually from the Actions tab on GitHub
   workflow_dispatch:
 
 env:
-  # Name of module and id separated by a slash
-  INSTANCE: Writerside/hi
-  # Replace HI with the ID of the instance in capital letters
-  ARTIFACT: webHelpHI2-all.zip
-  # Docker image version
-  DOCKER_VERSION: 242.21870
-  # PDF
+  INSTANCE: 'Writerside/hi'
+  ARTIFACT: 'webHelpHI2-all.zip'
+  DOCKER_VERSION: '242.21870'
   PDF: 'PDF.xml'
 
 jobs:
@@ -202,7 +187,3 @@ jobs:
           path: artifacts/${{ env.ARTIFACT }}
           retention-days: 7
 ```
-
-For more information, please read the deployment guide — [Build and publish on GitHub](https://www.jetbrains.com/help/writerside/deploy-docs-to-github-pages.html).
-
-
