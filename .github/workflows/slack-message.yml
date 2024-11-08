@@ -11,27 +11,10 @@ jobs:
   send-slack-notification:
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub issue commented
-        id: slack-comment
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          payload: |
-            {
-              "text": "GitHub issue commented",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":github: User _${{ github.event.comment.user.login }}_ commented issue:\\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*> \\n>${{ github.event.comment.body }}"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: github.event_name == 'issue_comment' && !(github.event.comment.user.login == 'Muph0' || github.event.comment.user.login == 'lananovikova10' || github.event.comment.user.login == 'siarb' || github.event.comment.user.login == 'azhebel')
+      - name: Prepare Issue Body
+        id: prepare-issue-body
+        run: |
+          echo "::set-output name=issue_body::$(echo '${{ github.event.issue.body }}' | sed ':a;N;$!ba;s/\n/\\n> /g')"
 
       - name: GitHub issue submitted
         id: slack-opened
@@ -46,12 +29,38 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":github: User _${{ github.event.issue.user.login }}_ submitted issue:\\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*> \\n>${{ github.event.issue.body }}".replace(/\n/g, "\\n")
+                    "text": ":github: User _${{ github.event.issue.user.login }}_ submitted issue:\n<${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*>\n> ${{ steps.prepare-issue-body.outputs.issue_body }}..."
                   }
                 }
               ]
             }
-
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: github.event_name == 'issues' && github.event.action == 'opened' && !(github.event.issue.user.login == 'Muph0' || github.event.issue.user.login == 'lananovikova10' || github.event.issue.user.login == 'siarb' || github.event.comment.user.login == 'azhebel')
+        if: github.event_name == 'issues' && github.event.action == 'opened' && !(github.event.issue.user.login == 'Muph0' || github.event.issue.user.login == 'lananovikova10' || github.event.comment.user.login == 'azhebel' || github.event.comment.user.login == 'siarb')
+
+      - name: Prepare Comment Body
+        id: prepare-comment-body
+        run: |
+          echo "::set-output name=comment_body::$(echo '${{ github.event.comment.body }}' | sed ':a;N;$!ba;s/\n/\\n> /g')"
+
+      - name: GitHub issue commented
+        id: slack-comment
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": "GitHub issue commented",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":github: User _${{ github.event.comment.user.login }}_ commented issue:\n<${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*>\n> ${{ steps.prepare-comment-body.outputs.comment_body }}..."
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        if: github.event_name == 'issue_comment' && !(github.event.comment.user.login == 'Muph0' || github.event.comment.user.login == 'lananovikova10' || github.event.comment.user.login == 'azhebel' || github.event.comment.user.login == 'siarb')
