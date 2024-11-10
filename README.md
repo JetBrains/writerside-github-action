@@ -91,7 +91,7 @@ permissions:
 env:
   INSTANCE: 'Writerside/hi'
   ARTIFACT: 'webHelpHI2-all.zip'
-  DOCKER_VERSION: 242.21870
+  DOCKER_VERSION: '242.21870'
 
 jobs:
   build:
