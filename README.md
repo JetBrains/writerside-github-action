@@ -47,7 +47,7 @@ on:
 env:
   INSTANCE: 'Writerside/hi'
   ARTIFACT: 'webHelpHI2-all.zip'
-  DOCKER_VERSION: '242.21870'
+  DOCKER_VERSION: '243.21565'
 
 jobs:
   build:
@@ -91,7 +91,7 @@ permissions:
 env:
   INSTANCE: 'Writerside/hi'
   ARTIFACT: 'webHelpHI2-all.zip'
-  DOCKER_VERSION: '242.21870'
+  DOCKER_VERSION: '243.21565'
 
 jobs:
   build:
@@ -160,7 +160,7 @@ on:
 env:
   INSTANCE: 'Writerside/hi'
   ARTIFACT: 'webHelpHI2-all.zip'
-  DOCKER_VERSION: '242.21870'
+  DOCKER_VERSION: '243.21565'
   PDF: 'PDF.xml'
 
 jobs:
@@ -171,6 +171,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Define instance id
+        run: |
+          INSTANCE_ID="${INSTANCE#*/}"
+          INSTANCE_ID_UPPER=$(echo "$INSTANCE_ID" | tr '[:lower:]' '[:upper:]')
+          echo "INSTANCE_ID_UPPER=$INSTANCE_ID_UPPER" >> $GITHUB_ENV
+          echo "Extracted ID: $INSTANCE_ID_UPPER"
       
       - name: Build Writerside docs using Docker
         uses: JetBrains/writerside-github-action@v4
@@ -184,6 +191,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifact
-          path: artifacts/${{ env.ARTIFACT }}
+          path: |
+            artifacts/pdfSource${{ env.INSTANCE_ID_UPPER }}.pdf
+            artifacts/pdfSource${{ env.INSTANCE_ID_UPPER }}.html
           retention-days: 7
 ```
