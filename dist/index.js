@@ -27853,7 +27853,7 @@ async function run() {
         // Set pdf flag if pdf is true
         let pdfFlag = '';
         if (pdf) {
-            pdfFlag = '-pdf=${pdf}';
+            pdfFlag = `-pdf ${pdf}`;
         }
 
         const commands = `
