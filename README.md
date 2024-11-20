@@ -46,30 +46,55 @@ on:
 
 env:
   INSTANCE: 'Writerside/hi'
-  ARTIFACT: 'webHelpHI2-all.zip'
   DOCKER_VERSION: '243.21565'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      algolia_artifact: ${{ steps.define-ids.outputs.algolia_artifact }}
+      artifact: ${{ steps.define-ids.outputs.artifact }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
+      - name: Define instance id and artifacts
+        id: define-ids
+        run: |
+          INSTANCE=${INSTANCE#*/}
+          INSTANCE_ID_UPPER=$(echo "$INSTANCE" | tr '[:lower:]' '[:upper:]')
+          ARTIFACT="webHelp${INSTANCE_ID_UPPER}2-all.zip"
+          ALGOLIA_ARTIFACT="algolia-indexes-${INSTANCE_ID_UPPER}.zip"
+
+          # Print the values
+          echo "INSTANCE_ID_UPPER: $INSTANCE_ID_UPPER"
+          echo "ARTIFACT: $ARTIFACT"
+          echo "ALGOLIA_ARTIFACT: $ALGOLIA_ARTIFACT"
+
+          # Set the environment variables and outputs
+          echo "INSTANCE_ID_UPPER=$INSTANCE_ID_UPPER" >> $GITHUB_ENV
+          echo "ARTIFACT=$ARTIFACT" >> $GITHUB_ENV
+          echo "ALGOLIA_ARTIFACT=$ALGOLIA_ARTIFACT" >> $GITHUB_ENV
+          echo "artifact=$ARTIFACT" >> $GITHUB_OUTPUT
+          echo "algolia_artifact=$ALGOLIA_ARTIFACT" >> $GITHUB_OUTPUT
+
       - name: Build docs using Writerside Docker builder
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
           docker-version: ${{ env.DOCKER_VERSION }}
-      
-      - name: Upload artifact
+
+      - name: Save artifact with build results
         uses: actions/upload-artifact@v4
         with:
-          name: artifact
-          path: artifacts/${{ env.ARTIFACT }}
+          name: docs
+          path: |
+            artifacts/${{ env.ARTIFACT }}
+            artifacts/report.json
+            artifacts/${{ env.ALGOLIA_ARTIFACT }}
           retention-days: 7
 ```
 
@@ -90,61 +115,83 @@ permissions:
 
 env:
   INSTANCE: 'Writerside/hi'
-  ARTIFACT: 'webHelpHI2-all.zip'
   DOCKER_VERSION: '243.21565'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+    outputs:
+      algolia_artifact: ${{ steps.define-ids.outputs.algolia_artifact }}
+      artifact: ${{ steps.define-ids.outputs.artifact }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Build Writerside docs using Docker
+      - name: Define instance id and artifacts
+        id: define-ids
+        run: |
+          INSTANCE=${INSTANCE#*/}
+          INSTANCE_ID_UPPER=$(echo "$INSTANCE" | tr '[:lower:]' '[:upper:]')
+          ARTIFACT="webHelp${INSTANCE_ID_UPPER}2-all.zip"
+          ALGOLIA_ARTIFACT="algolia-indexes-${INSTANCE_ID_UPPER}.zip"
+
+          # Print the values
+          echo "INSTANCE_ID_UPPER: $INSTANCE_ID_UPPER"
+          echo "ARTIFACT: $ARTIFACT"
+          echo "ALGOLIA_ARTIFACT: $ALGOLIA_ARTIFACT"
+
+          # Set the environment variables and outputs
+          echo "INSTANCE_ID_UPPER=$INSTANCE_ID_UPPER" >> $GITHUB_ENV
+          echo "ARTIFACT=$ARTIFACT" >> $GITHUB_ENV
+          echo "ALGOLIA_ARTIFACT=$ALGOLIA_ARTIFACT" >> $GITHUB_ENV
+          echo "artifact=$ARTIFACT" >> $GITHUB_OUTPUT
+          echo "algolia_artifact=$ALGOLIA_ARTIFACT" >> $GITHUB_OUTPUT
+
+      - name: Build docs using Writerside Docker builder
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
           artifact: ${{ env.ARTIFACT }}
           docker-version: ${{ env.DOCKER_VERSION }}
-        
-      - name: Upload artifact
+
+      - name: Save artifact with build results
         uses: actions/upload-artifact@v4
         with:
           name: docs
           path: |
             artifacts/${{ env.ARTIFACT }}
+            artifacts/report.json
+            artifacts/${{ env.ALGOLIA_ARTIFACT }}
           retention-days: 7
-
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Download artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: docs
+          path: artifacts
 
       - name: Unzip artifact
-        run: unzip -O UTF-8 -qq ${{ env.ARTIFACT }} -d dir
+        run: unzip -O UTF-8 -qq "artifacts/${{ needs.build.outputs.artifact }}" -d dir
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4.0.0
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3.0.1
+        uses: actions/configure-pages@v4
+
+      - name: Package and upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dir
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.4
+        uses: actions/deploy-pages@v4
 ```
 
 ## Example: Build PDF
@@ -159,7 +206,6 @@ on:
 
 env:
   INSTANCE: 'Writerside/hi'
-  ARTIFACT: 'webHelpHI2-all.zip'
   DOCKER_VERSION: '243.21565'
   PDF: 'PDF.xml'
 
@@ -183,7 +229,6 @@ jobs:
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
-          artifact: ${{ env.ARTIFACT }}
           docker-version: ${{ env.DOCKER_VERSION }}
           pdf: ${{ env.PDF }}
       
