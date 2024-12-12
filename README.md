@@ -46,7 +46,7 @@ on:
 
 env:
   INSTANCE: 'Writerside/hi'
-  DOCKER_VERSION: '243.21565'
+  DOCKER_VERSION: '243.22562'
 
 jobs:
   build:
@@ -115,7 +115,7 @@ permissions:
 
 env:
   INSTANCE: 'Writerside/hi'
-  DOCKER_VERSION: '243.21565'
+  DOCKER_VERSION: '243.22562'
 
 jobs:
   build:
@@ -206,7 +206,7 @@ on:
 
 env:
   INSTANCE: 'Writerside/hi'
-  DOCKER_VERSION: '243.21565'
+  DOCKER_VERSION: '243.22562'
   PDF: 'PDF.xml'
 
 jobs:
