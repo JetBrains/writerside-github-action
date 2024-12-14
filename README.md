@@ -18,12 +18,6 @@ The following environment variables are mandatory:
 : When you create a new Writerside project or add an instance in an existing project, the default module name is `Writerside` and the default instance ID is `hi`.
 : So, in this case, you would set `INSTANCE: 'Writerside/hi'`.
 
-`ARTIFACT`
-: The name of the produced archive is `webHelpXX2-all.zip`
-  where `XX` is the capitalized instance ID.
-: For example, if the module (directory with documentation) is `Writerside`,
-  and the instance ID is `hi`, then set to `ARTIFACT: webHelpHI2-all.zip`.
-
 `DOCKER_VERSION`
 : Specify the version tag of the Writerside Docker builder image.
   For the latest version, see [What's new](https://www.jetbrains.com/help/writerside/whats-new-last-update.html).
@@ -84,7 +78,6 @@ jobs:
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
-          artifact: ${{ env.ARTIFACT }}
           docker-version: ${{ env.DOCKER_VERSION }}
 
       - name: Save artifact with build results
@@ -92,9 +85,9 @@ jobs:
         with:
           name: docs
           path: |
-            artifacts/${{ env.ARTIFACT }}
+            artifacts/${{ steps.define-ids.outputs.artifact }}
             artifacts/report.json
-            artifacts/${{ env.ALGOLIA_ARTIFACT }}
+            artifacts/${{ steps.define-ids.outputs.algolia_artifact }}
           retention-days: 7
 ```
 
@@ -153,7 +146,6 @@ jobs:
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
-          artifact: ${{ env.ARTIFACT }}
           docker-version: ${{ env.DOCKER_VERSION }}
 
       - name: Save artifact with build results
@@ -161,9 +153,9 @@ jobs:
         with:
           name: docs
           path: |
-            artifacts/${{ env.ARTIFACT }}
+            artifacts/${{ steps.define-ids.outputs.artifact }}
             artifacts/report.json
-            artifacts/${{ env.ALGOLIA_ARTIFACT }}
+            artifacts/${{ steps.define-ids.outputs.algolia_artifact }}
           retention-days: 7
   deploy:
     environment:
