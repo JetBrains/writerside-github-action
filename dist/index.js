@@ -27844,6 +27844,8 @@ async function run() {
         const artifact = core.getInput('artifact');
         const pdf = core.getInput('pdf');
         const workspace = process.env.GITHUB_WORKSPACE;
+        const container = core.getInput('container') || '';
+        const workingDirectory = core.getInput('workingDirectory') || '/github/workspace';
 
         // Set a default docker image if docker-version is undefined
         if (!imageVersion) {

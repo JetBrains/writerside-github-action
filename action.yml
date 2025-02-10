@@ -22,6 +22,12 @@ inputs:
     pdf:
         description: "Generate PDF as artifact"
         required: false
+    workingDirectory:
+        description: "The directory inside the Writerside container where source files and artifacts will be processed"
+        required: false
+    container:
+        description: "The name of an existing container whose volumes will be mounted for use in the current process"
+        required: false
 
 runs:
     using: 'node20'
