@@ -18,16 +18,7 @@ jobs:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           payload: |
             {
-              "text": "GitHub issue commented",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":github: User _${{ github.event.comment.user.login }}_ commented issue:\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*> \n>${{ github.event.comment.body }}"
-                  }
-                }
-              ]
+              "text": ":github: User _${{ github.event.comment.user.login }}_ commented on issue:\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*>"
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -46,7 +37,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":github: User _${{ github.event.issue.user.login }}_ submitted issue:\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*> \n>${{ github.event.issue.body }}"
+                    "text": ":github: User _${{ github.event.issue.user.login }}_ submitted issue:\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*>"
                   }
                 }
               ]

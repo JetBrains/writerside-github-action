@@ -11,23 +11,29 @@ async function run() {
         const workspace = process.env.GITHUB_WORKSPACE;
         const container = core.getInput('container') || '';
         const workingDirectory = core.getInput('workingDirectory') || '/github/workspace';
+        const isGroup = core.getInput('is-group') || 'false';
+
+        // Determine whether to use -product or -g based on is-group
+        let instanceParam;
+        if (isGroup && isGroup !== 'false' && isGroup !== '') {
+            instanceParam = `-g ${instance}`;
+        } else {
+            instanceParam = `-product ${instance}`;
+        }
 
         // Set a default docker image if docker-version is undefined
         if (!imageVersion) {
             imageVersion = '232.10275';
         }
 
-        // Set pdf flag if pdf is true
-        let pdfFlag = '';
-        if (pdf) {
-            pdfFlag = `-pdf ${pdf}`;
-        }
+        // Set pdf flag if pdf is provided
+        const pdfFlag = pdf ? `-pdf ${pdf}` : '';
 
         const commands = `
             export DISPLAY=:99
             Xvfb :99 &
             git config --global --add safe.directory ${workingDirectory}
-            /opt/builder/bin/idea.sh helpbuilderinspect -source-dir ${workingDirectory}/${location} -product ${instance} --runner github -output-dir ${workingDirectory}/artifacts/ || true
+            /opt/builder/bin/idea.sh helpbuilderinspect -source-dir ${workingDirectory}/${location} ${instanceParam} ${pdfFlag} --runner github -output-dir ${workingDirectory}/artifacts/ || true
             echo "Test existing artifacts"
             test -e ${workingDirectory}/artifacts/${artifact} && echo ${artifact} exists
             if [ -z "$(ls -A ${workingDirectory}/artifacts/ 2>/dev/null)" ]; then
