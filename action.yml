@@ -28,6 +28,9 @@ inputs:
     container:
         description: "The name of an existing container whose volumes will be mounted for use in the current process"
         required: false
+    is-group:
+        description: "Build multi-instance group"
+        required: false
 
 runs:
     using: 'node20'

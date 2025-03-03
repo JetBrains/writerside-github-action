@@ -14,7 +14,7 @@ see [Writerside documentation](https://www.jetbrains.com/help/writerside/deploy-
 The following environment variables are mandatory:
 
 `INSTANCE`
-: Specify the module name and instance ID, separated by a slash.
+: Specify the module name and instance ID or build-group-ID, separated by a slash.
 : When you create a new Writerside project or add an instance in an existing project, the default module name is `Writerside` and the default instance ID is `hi`.
 : So, in this case, you would set `INSTANCE: 'Writerside/hi'`.
 
@@ -27,6 +27,12 @@ The following environment variables are optional:
 `PDF`
 : Produce a PDF file as a build artifact instead of the documentation website.
   Specify an XML file with PDF generation options.
+
+`IS_GROUP`
+: Build documentation for a group of instances.
+
+> **Note**  
+> Building a PDF file is **not supported** when using `IS_GROUP`. If you set both `IS_GROUP` and `PDF`, the builder will ignore the `IS_GROUP` option and produce a PDF for a single instance only.
 
 ## Example: Build your documentation website
 
@@ -41,13 +47,11 @@ on:
 env:
   INSTANCE: 'Writerside/hi'
   DOCKER_VERSION: '243.22562'
+  # IS_GROUP: 'true'  # Uncomment to build a group
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      algolia_artifact: ${{ steps.define-ids.outputs.algolia_artifact }}
-      artifact: ${{ steps.define-ids.outputs.artifact }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -71,23 +75,20 @@ jobs:
           echo "INSTANCE_ID_UPPER=$INSTANCE_ID_UPPER" >> $GITHUB_ENV
           echo "ARTIFACT=$ARTIFACT" >> $GITHUB_ENV
           echo "ALGOLIA_ARTIFACT=$ALGOLIA_ARTIFACT" >> $GITHUB_ENV
-          echo "artifact=$ARTIFACT" >> $GITHUB_OUTPUT
-          echo "algolia_artifact=$ALGOLIA_ARTIFACT" >> $GITHUB_OUTPUT
 
       - name: Build docs using Writerside Docker builder
         uses: JetBrains/writerside-github-action@v4
         with:
           instance: ${{ env.INSTANCE }}
           docker-version: ${{ env.DOCKER_VERSION }}
+          is-group: ${{ env.IS_GROUP }}
+          artifact: ${{ env.ARTIFACT }}
 
       - name: Save artifact with build results
         uses: actions/upload-artifact@v4
         with:
           name: docs
-          path: |
-            artifacts/${{ steps.define-ids.outputs.artifact }}
-            artifacts/report.json
-            artifacts/${{ steps.define-ids.outputs.algolia_artifact }}
+          path: artifacts/*
           retention-days: 7
 ```
 
@@ -109,6 +110,7 @@ permissions:
 env:
   INSTANCE: 'Writerside/hi'
   DOCKER_VERSION: '243.22562'
+# IS_GROUP: 'true'  # Uncomment to build a group
 
 jobs:
   build:
@@ -147,15 +149,14 @@ jobs:
         with:
           instance: ${{ env.INSTANCE }}
           docker-version: ${{ env.DOCKER_VERSION }}
+          is-group: ${{ env.IS_GROUP }}
+          artifact: ${{ steps.define-ids.outputs.artifact }}
 
       - name: Save artifact with build results
         uses: actions/upload-artifact@v4
         with:
           name: docs
-          path: |
-            artifacts/${{ steps.define-ids.outputs.artifact }}
-            artifacts/report.json
-            artifacts/${{ steps.define-ids.outputs.algolia_artifact }}
+          path: artifacts/*
           retention-days: 7
   deploy:
     environment:
@@ -223,7 +224,8 @@ jobs:
           instance: ${{ env.INSTANCE }}
           docker-version: ${{ env.DOCKER_VERSION }}
           pdf: ${{ env.PDF }}
-      
+          artifact: pdfSource${{ env.INSTANCE_ID_UPPER }}.pdf
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
