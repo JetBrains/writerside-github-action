@@ -18,7 +18,7 @@ jobs:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           payload: |
             {
-              "text": ":github: User _${{ github.event.comment.user.login }}_ commented on issue:\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*>"
+              "text": ":github: User _${{ github.event.comment.user.login }}_ commented on issue: <${{ github.event.issue.html_url }}|#${{ github.event.issue.number }}>"
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -31,18 +31,8 @@ jobs:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           payload: |
             {
-              "text": "GitHub issue submitted",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":github: User _${{ github.event.issue.user.login }}_ submitted issue:\n><${{ github.event.issue.html_url }}|*${{ github.event.issue.title }}*>"
-                  }
-                }
-              ]
+              "text": ":github: User _${{ github.event.issue.user.login }}_ submitted an issue: <${{ github.event.issue.html_url }}|#${{ github.event.issue.number }}>"
             }
-
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: github.event_name == 'issues' && github.event.action == 'opened' && !(github.event.issue.user.login == 'Muph0' || github.event.issue.user.login == 'lananovikova10' || github.event.issue.user.login == 'siarb' || github.event.comment.user.login == 'azhebel')
+        if: github.event_name == 'issues' && github.event.action == 'opened' && !(github.event.issue.user.login == 'Muph0' || github.event.issue.user.login == 'lananovikova10' || github.event.issue.user.login == 'siarb' || github.event.issue.user.login == 'azhebel')
