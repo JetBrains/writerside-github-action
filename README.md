@@ -46,7 +46,7 @@ on:
 
 env:
   INSTANCE: 'Writerside/hi'
-  DOCKER_VERSION: '243.22562'
+  DOCKER_VERSION: 'latest'
   # IS_GROUP: 'true'  # Uncomment to build a group
 
 jobs:
@@ -109,7 +109,7 @@ permissions:
 
 env:
   INSTANCE: 'Writerside/hi'
-  DOCKER_VERSION: '243.22562'
+  DOCKER_VERSION: 'latest'
 # IS_GROUP: 'true'  # Uncomment to build a group
 
 jobs:
@@ -199,7 +199,7 @@ on:
 
 env:
   INSTANCE: 'Writerside/hi'
-  DOCKER_VERSION: '243.22562'
+  DOCKER_VERSION: 'latest'
   PDF: 'PDF.xml'
 
 jobs:
