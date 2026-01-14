@@ -18,6 +18,6 @@
     "@octokit/plugin-paginate-rest": "^9.2.2",
     "@octokit/request": "^8.4.1",
     "@octokit/request-error": "^5.1.1",
-    "undici": "^5.28.3"
+    "undici": "^6.23.0"
   }
 }
